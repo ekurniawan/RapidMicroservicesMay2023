@@ -72,16 +72,26 @@ namespace SampleASPData.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Samurai samurai)
+        public ActionResult Post(SamuraiInsertDto samuraiInsertDto)
         {
             try
             {
-                if (samurai == null)
+                if (samuraiInsertDto == null)
                 {
                     return BadRequest();
                 }
+                Samurai samurai = new Samurai
+                {
+                    Name = samuraiInsertDto.Name
+                };
                 _samuraiRepository.Add(samurai);
-                return CreatedAtAction(nameof(GetById), new { id = samurai.Id }, samurai);
+
+                SamuraiReadDto samuraiReadDto = new SamuraiReadDto
+                {
+                    Id = samurai.Id,
+                    Name = samurai.Name
+                };
+                return CreatedAtAction(nameof(GetById), new { id = samurai.Id }, samuraiReadDto);
             }
             catch (System.Exception ex)
             {
