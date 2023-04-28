@@ -24,8 +24,8 @@ namespace SampleASPData.Controllers
             return Ok(_samuraiRepository.GetAll());
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Samurai> Get(int id)
+        [HttpGet("{id}", Name = "GetById")]
+        public ActionResult<Samurai> GetById(int id)
         {
             var samurai = _samuraiRepository.GetById(id);
             if (samurai == null)
@@ -44,6 +44,39 @@ namespace SampleASPData.Controllers
                 return NotFound();
             }
             return Ok(samurai);
+        }
+
+        [HttpPost]
+        public ActionResult Post(Samurai samurai)
+        {
+            try
+            {
+                if (samurai == null)
+                {
+                    return BadRequest();
+                }
+                 _samuraiRepository.Add(samurai);
+                return CreatedAtAction(nameof(GetById), new { id = samurai.Id }, samurai);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Samurai samurai)
+        {
+            try
+            {
+                _samuraiRepository.Update(id,samurai);
+                return Ok($"Data with id {id} has been updated!");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

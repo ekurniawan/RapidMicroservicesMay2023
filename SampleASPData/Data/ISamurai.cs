@@ -12,7 +12,7 @@ namespace SampleASPData.Data
         IEnumerable<Samurai> GetByName(string name);
         Samurai GetById(int id);
         void Add(Samurai samurai);
-        void Update(Samurai samurai);
+        void Update(int id,Samurai samurai);
         void Delete(Samurai samurai);
     }
 }

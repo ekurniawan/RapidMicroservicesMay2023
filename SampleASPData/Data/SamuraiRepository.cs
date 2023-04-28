@@ -157,7 +157,7 @@ namespace SampleASPData.Data
             return samurais;
         }
 
-        public void Update(Samurai samurai)
+        public void Update(int id,Samurai samurai)
         {
             using(SqlConnection conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -165,7 +165,7 @@ namespace SampleASPData.Data
                                 WHERE Id = @Id";
                 SqlCommand cmd = new SqlCommand(strSql, conn);
                 cmd.Parameters.AddWithValue("@Name", samurai.Name);
-                cmd.Parameters.AddWithValue("@Id", samurai.Id);
+                cmd.Parameters.AddWithValue("@Id", id);
                 try
                 {
                     conn.Open();
