@@ -11,9 +11,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //menambahkan ef
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("DefaultConnection"))
+        .LogTo(Console.WriteLine,
+            new[] { DbLoggerCategory.Database.Command.Name },
+            LogLevel.Information).EnableSensitiveDataLogging());
 
 //injecting repository
 builder.Services.AddScoped<ISamurai, SamuraiRepoDapper>();
