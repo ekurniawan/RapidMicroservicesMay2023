@@ -30,17 +30,16 @@ namespace SampleASPData.Data
         {
             try
             {
-                 var result = GetById(id);
+                var result = GetById(id);
                 if (result != null)
                 {
-                    
+                    _context.Samurais.Remove(result);
                     _context.SaveChanges();
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 

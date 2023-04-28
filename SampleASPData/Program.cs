@@ -20,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //injecting repository
 builder.Services.AddScoped<ISamurai, SamuraiRepoEF>();
+builder.Services.AddScoped<IQuote, QuoteRepoEF>();
 
 var app = builder.Build();
 
