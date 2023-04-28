@@ -101,10 +101,14 @@ namespace SampleASPData.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Samurai samurai)
+        public IActionResult Put(int id, SamuraiInsertDto samuraiInsertDto)
         {
             try
             {
+                Samurai samurai = new Samurai
+                {
+                    Name = samuraiInsertDto.Name
+                };
                 _samuraiRepository.Update(id, samurai);
                 return Ok($"Data with id {id} has been updated!");
             }
