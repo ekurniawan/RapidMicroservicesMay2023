@@ -43,7 +43,28 @@ namespace SampleASPData.Data
 
         public void Delete(Samurai samurai)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var strSql = @"DELETE FROM Samurais WHERE Id = @Id";
+                var param = new { Id = samurai.Id };
+                try
+                {
+                    conn.Open();
+                    var result = conn.Execute(strSql, param);
+                    if (result != 1)
+                    {
+                        throw new Exception("Error deleting data into the database!");
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
         public IEnumerable<Samurai> GetAll()
@@ -88,7 +109,29 @@ namespace SampleASPData.Data
 
         public void Update(int id, Samurai samurai)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var strSql = @"UPDATE Samurais SET Name = @Name
+                                WHERE Id = @Id";
+                var param = new { Id = id, Name = samurai.Name };
+                try
+                {
+                    conn.Open();
+                    var result = conn.Execute(strSql, param);
+                    if (result != 1)
+                    {
+                        throw new Exception("Error updating data into the database!");
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }

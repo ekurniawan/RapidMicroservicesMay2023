@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SampleASPData.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +10,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//menambahkan ef
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
 //injecting repository
-builder.Services.AddScoped<ISamurai, SamuraiRepository>();
+builder.Services.AddScoped<ISamurai, SamuraiRepoDapper>();
 
 var app = builder.Build();
 
