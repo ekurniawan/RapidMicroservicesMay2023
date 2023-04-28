@@ -34,5 +34,16 @@ namespace SampleASPData.Controllers
             }
             return Ok(samurai);
         }
+
+        [HttpGet("byname")]
+        public ActionResult<IEnumerable<Samurai>> GetByName(string name)
+        {
+            var samurai = _samuraiRepository.GetByName(name);
+            if (samurai == null)
+            {
+                return NotFound();
+            }
+            return Ok(samurai);
+        }
     }
 }
