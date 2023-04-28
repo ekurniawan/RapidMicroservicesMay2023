@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SampleASPData.Data;
+using SampleASPData.DTO;
 using SampleASPData.Models;
 
 namespace SampleASPData.Controllers
@@ -19,31 +20,55 @@ namespace SampleASPData.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Samurai>> Get()
+        public ActionResult<IEnumerable<SamuraiReadDto>> Get()
         {
-            return Ok(_samuraiRepository.GetAll());
+            List<SamuraiReadDto> samuraiReadDto = new List<SamuraiReadDto>();
+            var samurai = _samuraiRepository.GetAll();
+            foreach (var item in samurai)
+            {
+                samuraiReadDto.Add(new SamuraiReadDto
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                });
+            }
+            return Ok(samuraiReadDto);
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public ActionResult<Samurai> GetById(int id)
+        public ActionResult<SamuraiReadDto> GetById(int id)
         {
             var samurai = _samuraiRepository.GetById(id);
             if (samurai == null)
             {
                 return NotFound();
             }
-            return Ok(samurai);
+            SamuraiReadDto samuraiReadDto = new SamuraiReadDto
+            {
+                Id = samurai.Id,
+                Name = samurai.Name
+            };
+            return Ok(samuraiReadDto);
         }
 
         [HttpGet("byname")]
-        public ActionResult<IEnumerable<Samurai>> GetByName(string name)
+        public ActionResult<IEnumerable<SamuraiReadDto>> GetByName(string name)
         {
             var samurai = _samuraiRepository.GetByName(name);
             if (samurai == null)
             {
                 return NotFound();
             }
-            return Ok(samurai);
+            List<SamuraiReadDto> samuraiReadDto = new List<SamuraiReadDto>();
+            foreach (var item in samurai)
+            {
+                samuraiReadDto.Add(new SamuraiReadDto
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                });
+            }
+            return Ok(samuraiReadDto);
         }
 
         [HttpPost]
