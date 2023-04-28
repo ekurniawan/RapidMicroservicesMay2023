@@ -13,6 +13,6 @@ namespace SampleASPData.Data
         Samurai GetById(int id);
         void Add(Samurai samurai);
         void Update(int id,Samurai samurai);
-        void Delete(Samurai samurai);
+        void Delete(int id);
     }
 }

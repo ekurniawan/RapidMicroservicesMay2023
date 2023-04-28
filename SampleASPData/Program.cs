@@ -19,7 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             LogLevel.Information).EnableSensitiveDataLogging());
 
 //injecting repository
-builder.Services.AddScoped<ISamurai, SamuraiRepoDapper>();
+builder.Services.AddScoped<ISamurai, SamuraiRepoEF>();
 
 var app = builder.Build();
 

@@ -55,14 +55,14 @@ namespace SampleASPData.Controllers
                 {
                     return BadRequest();
                 }
-                 _samuraiRepository.Add(samurai);
+                _samuraiRepository.Add(samurai);
                 return CreatedAtAction(nameof(GetById), new { id = samurai.Id }, samurai);
             }
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
 
         [HttpPut("{id}")]
@@ -70,8 +70,22 @@ namespace SampleASPData.Controllers
         {
             try
             {
-                _samuraiRepository.Update(id,samurai);
+                _samuraiRepository.Update(id, samurai);
                 return Ok($"Data with id {id} has been updated!");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _samuraiRepository.Delete(id);
+                return Ok($"Data with id {id} has been deleted!");
             }
             catch (System.Exception ex)
             {

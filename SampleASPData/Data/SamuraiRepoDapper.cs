@@ -41,12 +41,12 @@ namespace SampleASPData.Data
             }
         }
 
-        public void Delete(Samurai samurai)
+        public void Delete(int id)
         {
             using (SqlConnection conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 var strSql = @"DELETE FROM Samurais WHERE Id = @Id";
-                var param = new { Id = samurai.Id };
+                var param = new { Id = id };
                 try
                 {
                     conn.Open();
