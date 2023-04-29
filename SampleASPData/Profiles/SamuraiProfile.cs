@@ -14,6 +14,7 @@ namespace SampleASPData.Profiles
         {
             CreateMap<Samurai, SamuraiReadDto>();
             CreateMap<SamuraiInsertDto, Samurai>();
+            CreateMap<Quote, QuoteWithSamuraiDto>();
         }
     }
 }
