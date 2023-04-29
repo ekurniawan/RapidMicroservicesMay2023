@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using OrderService.Data;
 using OrderService.SyncDataServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//ef inmem
+builder.Services.AddDbContext<AppDbContext>(opt =>opt.UseInMemoryDatabase("InMem"));
 
 //daftarkan http client
 builder.Services.AddHttpClient<IProductDataClient, HttpProductDataClient>();
