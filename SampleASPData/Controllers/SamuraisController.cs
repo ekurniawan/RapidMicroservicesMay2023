@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SampleASPData.Data;
 using SampleASPData.DTO;
@@ -14,24 +15,20 @@ namespace SampleASPData.Controllers
     public class SamuraisController : ControllerBase
     {
         private readonly ISamurai _samuraiRepository;
-        public SamuraisController(ISamurai samuraiRepository)
+        private readonly IMapper _mapper;
+
+        public SamuraisController(ISamurai samuraiRepository,
+        IMapper mapper)
         {
             _samuraiRepository = samuraiRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<SamuraiReadDto>> Get()
         {
-            List<SamuraiReadDto> samuraiReadDto = new List<SamuraiReadDto>();
             var samurai = _samuraiRepository.GetAll();
-            foreach (var item in samurai)
-            {
-                samuraiReadDto.Add(new SamuraiReadDto
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
+            var samuraiReadDto = _mapper.Map<IEnumerable<SamuraiReadDto>>(samurai);
             return Ok(samuraiReadDto);
         }
 
@@ -43,11 +40,7 @@ namespace SampleASPData.Controllers
             {
                 return NotFound();
             }
-            SamuraiReadDto samuraiReadDto = new SamuraiReadDto
-            {
-                Id = samurai.Id,
-                Name = samurai.Name
-            };
+            var samuraiReadDto = _mapper.Map<SamuraiReadDto>(samurai);
             return Ok(samuraiReadDto);
         }
 
@@ -59,15 +52,7 @@ namespace SampleASPData.Controllers
             {
                 return NotFound();
             }
-            List<SamuraiReadDto> samuraiReadDto = new List<SamuraiReadDto>();
-            foreach (var item in samurai)
-            {
-                samuraiReadDto.Add(new SamuraiReadDto
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
+            var samuraiReadDto = _mapper.Map<IEnumerable<SamuraiReadDto>>(samurai);
             return Ok(samuraiReadDto);
         }
 
@@ -80,17 +65,9 @@ namespace SampleASPData.Controllers
                 {
                     return BadRequest();
                 }
-                Samurai samurai = new Samurai
-                {
-                    Name = samuraiInsertDto.Name
-                };
+                var samurai = _mapper.Map<Samurai>(samuraiInsertDto);
                 _samuraiRepository.Add(samurai);
-
-                SamuraiReadDto samuraiReadDto = new SamuraiReadDto
-                {
-                    Id = samurai.Id,
-                    Name = samurai.Name
-                };
+                var samuraiReadDto = _mapper.Map<SamuraiReadDto>(samurai);
                 return CreatedAtAction(nameof(GetById), new { id = samurai.Id }, samuraiReadDto);
             }
             catch (System.Exception ex)
@@ -105,10 +82,7 @@ namespace SampleASPData.Controllers
         {
             try
             {
-                Samurai samurai = new Samurai
-                {
-                    Name = samuraiInsertDto.Name
-                };
+                var samurai = _mapper.Map<Samurai>(samuraiInsertDto);
                 _samuraiRepository.Update(id, samurai);
                 return Ok($"Data with id {id} has been updated!");
             }

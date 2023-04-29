@@ -18,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             new[] { DbLoggerCategory.Database.Command.Name },
             LogLevel.Information).EnableSensitiveDataLogging());
 
+//menambahkan automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 //injecting repository
 builder.Services.AddScoped<ISamurai, SamuraiRepoEF>();
 builder.Services.AddScoped<IQuote, QuoteRepoEF>();
